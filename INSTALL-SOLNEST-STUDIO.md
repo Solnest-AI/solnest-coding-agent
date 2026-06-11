@@ -77,4 +77,4 @@ Close with this summary (adapt to your voice, keep it short):
 
 ---
 
-*Solnest AI Studio v3.1.0 — built by Solnest AI. This installer is safe to re-run; every step is idempotent.*
+*Solnest AI Studio v3.1.1 — built by Solnest AI. This installer is safe to re-run; every step is idempotent.*

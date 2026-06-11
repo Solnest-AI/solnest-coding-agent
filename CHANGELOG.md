@@ -5,6 +5,16 @@ All notable changes to the `solnest-ai-studio` plugin are documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1] - 2026-06-10
+
+### Changed
+
+- THE LOOP's PLAN step now saves plans for complex/multi-session builds to
+  `docs/plans/` in the project, making the plugin fully self-contained — no
+  external planning plugin needed.
+- Plugin README and CLAUDE.md genericized for public distribution (no
+  machine-specific status, GitHub install as the primary path).
+
 ## [3.1.0] - 2026-06-10
 
 Rolls up everything shipped since 3.0.0 (Sprint 1 + the Phase-0 upgrade) and the autonomy retune.
