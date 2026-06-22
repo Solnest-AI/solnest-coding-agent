@@ -1,10 +1,10 @@
-# Solnest AI Studio
+# Solnest Coding Agent
 
-A Claude Code plugin that gives you a full software-development team: a **`studio`** master orchestrator plus **9 engineering specialists** covering the complete development lifecycle — AI engineering, backend, frontend, UI/UX, code review, DevOps, security, performance, and project delivery.
+A Claude Code plugin that gives you a full software-development team: a **`coding-agent`** master orchestrator plus **9 engineering specialists** covering the complete development lifecycle — AI engineering, backend, frontend, UI/UX, code review, DevOps, security, performance, and project delivery.
 
 For code work only — marketing, content, and business operations live elsewhere.
 
-- **Plugin name:** `solnest-ai-studio`
+- **Plugin name:** `solnest-coding-agent`
 - **Version:** `3.1.0`
 
 ---
@@ -15,7 +15,7 @@ One orchestrator and nine specialists. This set matches the agents documented in
 
 | Agent | Invoke for |
 |-------|-----------|
-| **`studio`** | Master orchestrator. Pass any file and any command (`fix this`, `make this better`, `add tests`, `review for launch`, `build this API`, `audit security`). It reads the input, picks the right specialist(s), and does the work. Start here when you're not sure who to call. |
+| **`coding-agent`** | Master orchestrator. Pass any file and any command (`fix this`, `make this better`, `add tests`, `review for launch`, `build this API`, `audit security`). It reads the input, picks the right specialist(s), and does the work. Start here when you're not sure who to call. |
 | **`ai-engineer`** | Claude API integrations, prompt engineering, agent design, RAG pipelines, embeddings, tool use — any AI/LLM feature. Solnest AI's core competency. |
 | **`backend-architect`** | Python/Node.js APIs, database and Supabase schema design, authentication, server logic, system architecture. |
 | **`frontend-developer`** | React/Next.js components, pages, layouts, Tailwind CSS, responsive design, client-side logic. |
@@ -26,19 +26,19 @@ One orchestrator and nine specialists. This set matches the agents documented in
 | **`performance-engineer`** | Profiling, benchmarking, database optimization, load testing, memory analysis, bundle-size reduction, caching. |
 | **`project-shipper`** | Launch checklists, readiness reviews, blocker identification, and client delivery. |
 
-Each specialist has full tool access and domain-specific instructions. The `studio` orchestrator carries the routing logic and can invoke any specialist on your behalf — so you can either call a specialist directly or hand everything to `studio`.
+Each specialist has full tool access and domain-specific instructions. The `coding-agent` orchestrator carries the routing logic and can invoke any specialist on your behalf — so you can either call a specialist directly or hand everything to `coding-agent`.
 
 ---
 
 ## Installation
 
-The plugin is distributed through a Claude Code marketplace defined at the repository root in [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json), which points at the `./solnest-ai-studio` source directory.
+The plugin is distributed through a Claude Code marketplace defined at the repository root in [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json), which points at the `./solnest-coding-agent` source directory.
 
-**Installing from GitHub** (most users — public repo `Solnest-AI/solnest-ai-studio`):
+**Installing from GitHub** (most users — public repo `Solnest-AI/solnest-coding-agent`):
 
 ```text
-/plugin marketplace add Solnest-AI/solnest-ai-studio
-/plugin install solnest-ai-studio@solnest
+/plugin marketplace add Solnest-AI/solnest-coding-agent
+/plugin install solnest-coding-agent@solnest
 ```
 
 **Installing from a local clone** (development):
@@ -46,17 +46,17 @@ The plugin is distributed through a Claude Code marketplace defined at the repos
 ```text
 # Point at the repo root — the folder that contains .claude-plugin/marketplace.json.
 /plugin marketplace add /path/to/this/repo
-/plugin install solnest-ai-studio@<marketplace-name>
+/plugin install solnest-coding-agent@<marketplace-name>
 ```
 
-After installation, restart Claude Code (or reload plugins) so the agents and hooks register. The running copy lives in the plugin cache (`~/.claude/plugins/cache/<marketplace>/solnest-ai-studio/<version>`) and is rebuilt whenever the plugin is updated.
+After installation, restart Claude Code (or reload plugins) so the agents and hooks register. The running copy lives in the plugin cache (`~/.claude/plugins/cache/<marketplace>/solnest-coding-agent/<version>`) and is rebuilt whenever the plugin is updated.
 
 > **Source of truth is this repo.** Do not edit the cached copy directly — anything changed only in the cache is destroyed on the next plugin update.
 
 To pick up new versions:
 
 ```text
-/plugin update solnest-ai-studio
+/plugin update solnest-coding-agent
 ```
 
 ---
@@ -100,7 +100,7 @@ The agents are designed to **degrade gracefully** — they use MCP servers "when
 
 | MCP / tool | Used by | For |
 |------------|---------|-----|
-| **Supabase MCP** | `backend-architect`, `performance-engineer`, `ai-engineer`, `studio` | Database operations, migrations, RLS policies, edge functions, pgvector. |
+| **Supabase MCP** | `backend-architect`, `performance-engineer`, `ai-engineer`, `coding-agent` | Database operations, migrations, RLS policies, edge functions, pgvector. |
 | **Figma MCP** | `ui-designer`, `frontend-developer` | Reading design files, extracting specs, screenshots, code connect. |
 | **Playwright MCP** | `frontend-developer`, `ui-designer`, `code-reviewer` | Browser automation and UI testing. |
 | **Magic 21st MCP** | `ui-designer`, `frontend-developer` | Pre-built component inspiration and scaffolding. |
@@ -116,11 +116,11 @@ Configure MCP servers through your Claude Code MCP settings — a local project 
 ## Repository layout
 
 ```text
-solnest-ai-studio/
+solnest-coding-agent/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest (name, version, description)
-├── agents/                  # 10 agent definitions (studio + 9 specialists)
-│   ├── studio.md
+├── agents/                  # 10 agent definitions (coding-agent + 9 specialists)
+│   ├── coding-agent.md
 │   ├── ai-engineer.md
 │   ├── backend-architect.md
 │   ├── frontend-developer.md

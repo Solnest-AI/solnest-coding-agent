@@ -1,4 +1,4 @@
-# Solnest AI Studio
+# Solnest Coding Agent
 
 A 10-agent coding plugin for [Claude Code](https://claude.com/claude-code) — a master orchestrator plus 9 engineering specialists, with automated quality gates baked in.
 
@@ -9,19 +9,19 @@ This is the same agent system Solnest AI uses every day to build client projects
 Inside Claude Code, type:
 
 ```
-/plugin marketplace add Solnest-AI/solnest-ai-studio
-/plugin install solnest-ai-studio@solnest
+/plugin marketplace add Solnest-AI/solnest-coding-agent
+/plugin install solnest-coding-agent@solnest
 ```
 
-Restart Claude Code, then type `/agents` — you should see **studio** plus 9 specialists.
+Restart Claude Code, then type `/agents` — you should see **coding-agent** plus 9 specialists.
 
-**Easiest path:** download `INSTALL-SOLNEST-STUDIO.md` from this repo, drag it into Claude Code, and say *"set this up"* — Claude walks you through everything, checks your prerequisites, and verifies the install.
+**Easiest path:** download `INSTALL-SOLNEST-CODING-AGENT.md` from this repo, drag it into Claude Code, and say *"set this up"* — Claude walks you through everything, checks your prerequisites, and verifies the install.
 
 ## What you get
 
 | Agent | What it does |
 |-------|--------------|
-| **studio** | Master orchestrator — runs THE LOOP: clarify → plan + Definition of Done → build → test → verify → repeat until done |
+| **coding-agent** | Master orchestrator — runs THE LOOP: clarify → plan + Definition of Done → build → test → verify → repeat until done |
 | **ai-engineer** | Claude API, prompts, RAG, embeddings, agent design |
 | **backend-architect** | Python, Node.js, APIs, databases, cloud architecture |
 | **frontend-developer** | React, Next.js, Tailwind, mobile |
@@ -39,14 +39,14 @@ Plus two automated quality gates (no setup needed):
 
 ## How it works
 
-The studio agent doesn't just write code — it runs a closed loop: it asks clarifying questions up front (only when getting it wrong would be expensive), writes a Definition of Done, builds, tests after every edit, then dispatches **fresh-context critics** (code review + security audit, scaled up for complex work) that never review their own code, and loops until the Definition of Done is met.
+The coding-agent doesn't just write code — it runs a closed loop: it asks clarifying questions up front (only when getting it wrong would be expensive), writes a Definition of Done, builds, tests after every edit, then dispatches **fresh-context critics** (code review + security audit, scaled up for complex work) that never review their own code, and loops until the Definition of Done is met.
 
-See [`solnest-ai-studio/README.md`](solnest-ai-studio/README.md) for full agent docs.
+See [`solnest-coding-agent/README.md`](solnest-coding-agent/README.md) for full agent docs.
 
 ## Updating
 
 ```
-/plugin update solnest-ai-studio
+/plugin update solnest-coding-agent
 ```
 
 New versions are announced in the Solnest AI community — see [CHANGELOG.md](CHANGELOG.md).

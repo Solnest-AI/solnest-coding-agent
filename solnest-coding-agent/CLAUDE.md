@@ -1,4 +1,4 @@
-# Solnest AI Studio — Coding Agent
+# Solnest Coding Agent — Coding Agent
 
 Full-stack engineering plugin for Solnest AI — 10 agents covering the complete software development lifecycle.
 
@@ -10,7 +10,7 @@ A Claude Code plugin with 9 engineering specialists and a master orchestrator. B
 
 | Agent | Domain | Org Chart Mapping |
 |-------|--------|-------------------|
-| **Studio** | Master orchestrator — routes any task to the right specialist(s) | Chief of Staff |
+| **Coding Agent** | Master orchestrator — routes any task to the right specialist(s) | Chief of Staff |
 | **AI Engineer** | Claude API, prompt engineering, RAG, embeddings, agent design, MLOps | ML Engineer + Data Engineer |
 | **Backend Architect** | Python, Node.js, APIs, databases, cloud architecture, monorepo design | Architect (System Design) |
 | **Frontend Developer** | React, Next.js, Tailwind, mobile (React Native, Flutter) | Frontend Dev (Web & Mobile) |
@@ -41,7 +41,7 @@ These are **optional integrations** the agents use when present. The plugin load
 
 ## Rules
 
-- **Run THE LOOP** (see studio.md) for any non-trivial task: clarify → plan + Definition of Done → build (worker, or parallel specialists for independent workstreams) → inner test loop → verification panel (fresh-context critics, scaled to complexity) → outer goal-loop until done. **Gate by reversibility** — proceed with stated assumptions on reversible steps; pause to confirm spec/plan on costly-to-reverse choices; block on irreversible or outward-facing actions. In autonomous runs, pauses become board interactions, not stalls.
+- **Run THE LOOP** (see coding-agent.md) for any non-trivial task: clarify → plan + Definition of Done → build (worker, or parallel specialists for independent workstreams) → inner test loop → verification panel (fresh-context critics, scaled to complexity) → outer goal-loop until done. **Gate by reversibility** — proceed with stated assumptions on reversible steps; pause to confirm spec/plan on costly-to-reverse choices; block on irreversible or outward-facing actions. In autonomous runs, pauses become board interactions, not stalls.
 - **Verification is dispatched, never self-reviewed:** code-reviewer / security-auditor / performance-engineer / spec-judge run as fresh Task-tool subagents. Scale the panel up for complex or high-stakes work; trivial work just needs the test loop.
 - **Tier 0 = local pre-check (free):** before frontier critics, run `python3 ~/.claude/scripts/local-precheck.py <files|--diff>` — local qwen3-coder-next catches obvious bugs/security/spec issues at $0. Fix those first, then escalate only what's left to the frontier critics. Non-blocking on error. If the script or local model isn't installed on this machine, this tier auto-skips — it's an optional power-up, not a requirement.
 - This loop is a self-contained unit so it can be hired as a single "employee" by an orchestration layer (e.g. Paperclip) via AGENTS.md.

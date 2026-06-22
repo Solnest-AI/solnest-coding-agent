@@ -6,8 +6,8 @@
   },
   "plugins": [
     {
-      "name": "solnest-ai-studio",
-      "source": "./solnest-ai-studio"
+      "name": "solnest-coding-agent",
+      "source": "./solnest-coding-agent"
     }
   ]
 }
