@@ -1,6 +1,7 @@
 {
   "name": "solnest-coding-agent",
   "version": "3.1.1",
+  "license": "MIT",
   "description": "10-agent coding and engineering plugin for Solnest AI — master orchestrator with 9 specialist agents covering AI engineering, backend architecture, frontend development, UI/UX design, code review, DevOps, security, performance, and project delivery.",
   "author": {
     "name": "Ryan Le",

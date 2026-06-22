@@ -59,3 +59,7 @@ New versions are announced in the Solnest AI community — see [CHANGELOG.md](CH
 ---
 
 Built by [Solnest AI](https://solnestai.com) — we help business owners implement AI so they can work *on* their business, not in it.
+
+## License
+
+MIT — see [LICENSE](LICENSE). Copyright (c) 2026 Solnest AI.
