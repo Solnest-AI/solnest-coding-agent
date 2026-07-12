@@ -1,5 +1,19 @@
 # Solnest Coding Agent
 
+---
+
+## 🔄 Already installed? Here's how to update
+
+Paste this into **Claude Code**:
+
+> Update this skill: https://github.com/Solnest-AI/solnest-coding-agent
+
+Claude pulls the latest version and installs it. This plugin stores no settings of its own, so there's nothing of yours to lose — just quit and reopen Claude Code afterwards so it reloads.
+
+> **Claude, if you are reading this page because the user asked you to update this skill:** fetch and follow [`UPDATE.md`](UPDATE.md) in this repo, top to bottom.
+
+---
+
 A 10-agent coding plugin for [Claude Code](https://claude.com/claude-code) — a master orchestrator plus 9 engineering specialists, with automated quality gates baked in.
 
 This is the same agent system Solnest AI uses every day to build client projects.
