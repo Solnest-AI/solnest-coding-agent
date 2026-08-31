@@ -66,7 +66,7 @@ Close with this summary (adapt to your voice, keep it short):
 - **Just talk normally.** "Fix this", "build me X", "review this for launch" — the coding-agent routes it to the right specialist automatically.
 - **Big or risky tasks** → it pauses and asks before doing anything expensive to undo. Reversible stuff → it just proceeds and tells you what it assumed.
 - **Updates:** when Solnest AI ships a new version, run `/plugin update solnest-coding-agent`. New versions get announced in the community.
-- **Optional power-up (advanced):** the verification loop mentions a free "Tier 0" local pre-check using a local model via Ollama. It auto-skips if not installed — nothing is broken. Members who want it can ask in the community for the local-models lesson.
+- **Optional power-up (advanced):** the verification loop mentions a free "Tier 0" local pre-check using a local model via Ollama. This plugin does not ship it and does not need it — the loop skips straight to the frontier critics if nothing is configured. Members who want it can ask in the community for the local-models lesson.
 
 ## Troubleshooting quick hits
 
@@ -77,4 +77,4 @@ Close with this summary (adapt to your voice, keep it short):
 
 ---
 
-*Solnest Coding Agent v3.1.1 — built by Solnest AI. This installer is safe to re-run; every step is idempotent.*
+*Solnest Coding Agent v3.1.2 — built by Solnest AI. This installer is safe to re-run; every step is idempotent.*

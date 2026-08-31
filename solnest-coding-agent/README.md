@@ -83,14 +83,21 @@ This gate is meant to stay **on**. Don't bypass it.
   | Project marker | Test command |
   |----------------|--------------|
   | `package.json` with a real `test` script | `npm test --silent` |
-  | `pyproject.toml` / `setup.py` / `pytest.ini` / `setup.cfg` (or `requirements.txt` + a `tests/` dir) | `python -m pytest -q --tb=line --no-header` |
+  | `pyproject.toml` / `setup.py` / `pytest.ini` / `setup.cfg` (or `requirements.txt` + a `tests/` dir) | `python3 -m pytest -q --tb=line --no-header` |
   | `Cargo.toml` | `cargo test --quiet` |
   | `go.mod` | `go test ./...` |
 
 - **Only runs on source files:** `.ts .tsx .js .jsx .py .go .rs .java .vue .svelte .rb .php .swift .kt`. Anything else (docs, config, JSON, Markdown) is skipped — so editing this README does **not** trigger a test run.
 - **On pass:** reports success as a system message.
 - **On fail:** feeds the truncated test output back to Claude (exit code 2) so it can fix the failure and re-edit — which re-triggers the hook, forming a test → fail → fix → retest loop.
-- **No-op when** no project root or no test command is found (it reminds rather than blocks).
+- **No-op when** no project root or no test command is found, or when no Python interpreter is on `PATH` for a Python project.
+- **Turning it down.** By default a red suite blocks the edit. On a repo whose tests were already failing, or mid-refactor when red is expected, that gets in the way — so set the `SOLNEST_AUTOTEST` environment variable:
+
+  | Value | Behaviour |
+  |-------|-----------|
+  | unset / `block` | Default. Tests run; a failure blocks the edit and is fed back to Claude. |
+  | `warn` | Tests run; a failure is reported but never blocks. |
+  | `off` | The hook exits immediately and runs nothing. |
 
 ---
 
@@ -109,7 +116,7 @@ The agents are designed to **degrade gracefully** — they use MCP servers "when
 
 **Tool availability.** Every entry is optional. MCP servers are used only if you configure them; the two skills (`ui-ux-pro-max`, `image-gen`) are used only if registered on your machine — otherwise the agents apply the underlying principles directly. Agents check before using and fall back to their built-in toolset, so nothing breaks when a tool is absent.
 
-Configure MCP servers through your Claude Code MCP settings — a local project `.mcp.json` (gitignored; copy `.mcp.json.example` for a secret-free template) or your user-level config. If a server isn't configured, the agent notes it's unavailable and proceeds with its built-in toolset.
+Configure MCP servers through your Claude Code MCP settings — a local project `.mcp.json` (keep it gitignored, it holds keys) or your user-level config. If a server isn't configured, the agent notes it's unavailable and proceeds with its built-in toolset.
 
 ---
 

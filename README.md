@@ -49,7 +49,7 @@ Restart Claude Code, then type `/agents` — you should see **coding-agent** plu
 Plus two automated quality gates (no setup needed):
 
 - **Secret scan** — blocks any `git commit` that contains hardcoded API keys or credentials.
-- **Auto-test loop** — runs your project's tests after every code edit and feeds failures straight back to Claude to fix.
+- **Auto-test loop** — runs your project's tests after every code edit and feeds failures straight back to Claude to fix. It blocks the edit on a red suite by default; set `SOLNEST_AUTOTEST=warn` (report only) or `off` if that gets in your way.
 
 ## How it works
 

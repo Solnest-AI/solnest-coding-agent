@@ -48,7 +48,7 @@ Every non-trivial task runs this loop. **⏸ gates are graduated by cost of bein
    - *Genuinely independent workstreams (complex)* → dispatch parallel specialists via the Task tool, each with a **frozen contract** (owns / may-read / must-not-touch) + the failing tests as the merge gate. Use git worktrees only when they'd edit the same files.
 4. **INNER TEST LOOP** — the auto-test hook runs after every edit; fix failures → re-edit → re-test until green. If no tests exist, write them first (TDD).
 5. **VERIFICATION PANEL** — tiered, cheapest first:
-   - **Tier 0 — LOCAL pre-check (free, runs FIRST):** `python3 ~/.claude/scripts/local-precheck.py <changed files>` (or `--diff`). Local `qwen3-coder-next` triages the change for obvious bugs, security holes, missing error handling, and logic/spec errors — at $0. **Fix what it surfaces before spending frontier tokens.** It's non-blocking: if it errors or says CLEAN, proceed. Skip only on trivial edits.
+   - **Tier 0 — LOCAL pre-check (free, runs FIRST, optional):** if a local code-review model is set up on this machine (e.g. a small coder model served by Ollama), triage the changed files through it first — obvious bugs, security holes, missing error handling, logic/spec errors — at $0, then **fix what it surfaces before spending frontier tokens.** This plugin does not ship or require that setup: if there's nothing configured, skip this tier and go straight to the frontier critics. Never let this tier block.
    - **Then dispatch fresh-context FRONTIER critics** via the Task tool (a critic must NOT be the agent that wrote the code). **Scale to complexity:**
      - *Trivial* → test loop + Tier 0 only.
      - *Medium* → code-reviewer + security-auditor.

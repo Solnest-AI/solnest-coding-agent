@@ -37,13 +37,13 @@ These are **optional integrations** the agents use when present. The plugin load
 ### Tool availability
 
 - Agents **check before using**: if a tool or skill above isn't configured on your machine, they note the gap and fall back to their built-in toolset — nothing breaks.
-- To enable an optional MCP server, add it to your project's `.mcp.json` (see `.mcp.json.example` for a secret-free template) or your user-level Claude Code config.
+- To enable an optional MCP server, add it to your project's `.mcp.json` (keep it gitignored — it holds keys) or your user-level Claude Code config.
 
 ## Rules
 
 - **Run THE LOOP** (see coding-agent.md) for any non-trivial task: clarify → plan + Definition of Done → build (worker, or parallel specialists for independent workstreams) → inner test loop → verification panel (fresh-context critics, scaled to complexity) → outer goal-loop until done. **Gate by reversibility** — proceed with stated assumptions on reversible steps; pause to confirm spec/plan on costly-to-reverse choices; block on irreversible or outward-facing actions. In autonomous runs, pauses become board interactions, not stalls.
 - **Verification is dispatched, never self-reviewed:** code-reviewer / security-auditor / performance-engineer / spec-judge run as fresh Task-tool subagents. Scale the panel up for complex or high-stakes work; trivial work just needs the test loop.
-- **Tier 0 = local pre-check (free):** before frontier critics, run `python3 ~/.claude/scripts/local-precheck.py <files|--diff>` — local qwen3-coder-next catches obvious bugs/security/spec issues at $0. Fix those first, then escalate only what's left to the frontier critics. Non-blocking on error. If the script or local model isn't installed on this machine, this tier auto-skips — it's an optional power-up, not a requirement.
+- **Tier 0 = local pre-check (free, optional):** if the user has wired up a local code-review model (e.g. a small coder model via Ollama), run it over the changed files before spending frontier tokens, and fix what it surfaces first. This plugin does not ship that setup and does not require it — if there's no local pre-check configured, skip straight to the frontier critics.
 - This loop is a self-contained unit so it can be hired as a single "employee" by an orchestration layer (e.g. Paperclip) via AGENTS.md.
 - Always read files fully before editing
 - Run tests before and after code changes

@@ -8,6 +8,19 @@ set -uo pipefail
 # Flow: Edit source code → this hook runs → tests pass? → continue
 #                                          → tests fail? → error fed back to Claude → Claude fixes → re-edit triggers this hook again → loop
 
+# Opt-out / opt-down. Set SOLNEST_AUTOTEST in your shell or Claude Code env:
+#   off  = skip this hook entirely
+#   warn = run the tests and report failures, but never block the edit
+#   (unset or anything else) = block the edit when tests fail (default)
+AUTOTEST_MODE="${SOLNEST_AUTOTEST:-block}"
+if [ "$AUTOTEST_MODE" = "off" ]; then
+  exit 0
+fi
+
+# Resolve a Python interpreter. Stock macOS 12.3+ ships no `python`, only `python3`,
+# so hardcoding `python` here made the hook report "tests failed" when they never ran.
+PY_BIN="$(command -v python3 || command -v python || true)"
+
 input=$(cat)
 tool_name=$(echo "$input" | jq -r '.tool_name // empty')
 file_path=""
@@ -51,13 +64,15 @@ while [ "$dir" != "/" ] && [ "$dir" != "." ]; do
     break
   elif [ -f "$dir/pyproject.toml" ] || [ -f "$dir/setup.py" ] || [ -f "$dir/pytest.ini" ] || [ -f "$dir/setup.cfg" ]; then
     project_root="$dir"
-    test_cmd="python -m pytest -q --tb=line --no-header"
+    if [ -n "$PY_BIN" ]; then
+      test_cmd="$PY_BIN -m pytest -q --tb=line --no-header"
+    fi
     break
   elif [ -f "$dir/requirements.txt" ]; then
     # Check if pytest is available
     project_root="$dir"
-    if [ -d "$dir/tests" ] || [ -d "$dir/test" ]; then
-      test_cmd="python -m pytest -q --tb=line --no-header"
+    if { [ -d "$dir/tests" ] || [ -d "$dir/test" ]; } && [ -n "$PY_BIN" ]; then
+      test_cmd="$PY_BIN -m pytest -q --tb=line --no-header"
     fi
     break
   elif [ -f "$dir/Cargo.toml" ]; then
@@ -83,17 +98,34 @@ test_output=$(eval "$test_cmd" 2>&1)
 test_exit=$?
 
 if [ $test_exit -eq 0 ]; then
-  # Tests passed — report success as system message
-  echo "{\"systemMessage\":\"AUTO-TEST PASSED: All tests passing after editing $file_path\"}"
+  # Tests passed — report success as a system message.
+  jq -n --arg msg "AUTO-TEST PASSED: All tests passing after editing $file_path" \
+    '{systemMessage: $msg}'
   exit 0
 else
-  # Tests failed — feed errors back to Claude via exit code 2
-  # Truncate output to 1500 chars to avoid overwhelming context
+  # Truncate output to 1500 chars to avoid overwhelming context.
   truncated_output=$(echo "$test_output" | tail -40 | head -c 1500)
 
-  # Escape JSON special characters
-  escaped_output=$(echo "$truncated_output" | python -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null || echo "\"(could not capture test output)\"")
+  if [ "$AUTOTEST_MODE" = "warn" ]; then
+    # Report only. Useful mid-refactor, or on a repo whose suite was already red.
+    # jq builds the JSON so the test output is escaped correctly. The old code
+    # shelled out to `python`, which does not exist on stock macOS 12.3+, and then
+    # spliced an already-quoted string inside quotes, producing invalid JSON.
+    jq -n --arg msg "AUTO-TEST FAILED after editing $file_path (SOLNEST_AUTOTEST=warn, not blocking). Test command: $test_cmd." \
+          --arg out "$truncated_output" \
+      '{systemMessage: ($msg + "\n\nTest output:\n" + $out)}'
+    exit 0
+  fi
 
-  echo "{\"systemMessage\":\"AUTO-TEST FAILED after editing $file_path. Test command: $test_cmd. Fix the failing tests before continuing.\n\nTest output:\n$escaped_output\"}" >&2
+  # Blocking mode: exit code 2 feeds stderr back to Claude as the reason.
+  {
+    echo "AUTO-TEST FAILED after editing $file_path."
+    echo "Test command: $test_cmd"
+    echo "Fix the failing tests before continuing, or set SOLNEST_AUTOTEST=warn"
+    echo "(report but do not block) or SOLNEST_AUTOTEST=off to disable this hook."
+    echo
+    echo "Test output:"
+    echo "$truncated_output"
+  } >&2
   exit 2
 fi
