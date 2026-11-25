@@ -1,0 +1,42 @@
+name: Release guard
+
+# Members update by tagged release (scripts/update.py). A tag whose VERSION
+# file was not bumped would leave every copy "behind" forever: the updater
+# refuses such a release rather than re-download it on every run, so no member
+# gets it at all. Catch it here, the moment the tag is pushed, not when a
+# member says "update the coding agent". The plugin's own version must match
+# too: Claude Code reads it from plugin.json, and scripts/install_plugin.sh
+# fails a release where the two disagree.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  version-matches-tag:
+    name: VERSION matches the tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare VERSION with the tag
+        run: |
+          v="$(tr -d '[:space:]' < VERSION)"
+          if [ "v$v" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::VERSION says $v but the tag is $GITHUB_REF_NAME. Delete the tag and its release, bump VERSION in a PR, merge, tag again."
+            exit 1
+          fi
+          echo "OK - VERSION $v matches $GITHUB_REF_NAME."
+
+      - name: Compare plugin.json with VERSION
+        run: |
+          v="$(tr -d '[:space:]' < VERSION)"
+          p="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' solnest-coding-agent/.claude-plugin/plugin.json | head -1)"
+          if [ "$p" != "$v" ]; then
+            echo "::error::plugin.json says $p but VERSION says $v. Make them match, then tag again."
+            exit 1
+          fi
+          echo "OK - plugin.json $p matches VERSION."

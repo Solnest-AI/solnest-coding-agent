@@ -1,79 +1,60 @@
 # Solnest Coding Agent
 
----
+A team of 10 coding agents for [Claude Code](https://claude.com/claude-code). One lead agent plans the work, builds it, tests it and has a second agent check it. Nine specialists cover the rest: AI features, backend, frontend, design, code review, deployment, security, speed and launch.
 
-## 🔄 Already installed? Here's how to update
+This is the same agent team Solnest AI uses every day to build client projects.
 
-Paste this into **Claude Code**:
+## What you need
 
-> Update this skill: https://github.com/Solnest-AI/solnest-coding-agent
+- Claude Code (a paid Claude plan).
+- Nothing else. No accounts, no keys, no extra cost. Setup checks for two free helpers (git and jq) and tells you if one is missing.
 
-Claude pulls the latest version and installs it. This plugin stores no settings of its own, so there's nothing of yours to lose — just quit and reopen Claude Code afterwards so it reloads.
+## Install
 
-> **Claude, if you are reading this page because the user asked you to update this skill:** fetch and follow [`UPDATE.md`](UPDATE.md) in this repo, top to bottom.
+1. Copy this page's link: `https://github.com/Solnest-AI/solnest-coding-agent`
+2. Paste it into Claude Code and say **"set this up"**. Claude does the rest and tells you when to restart.
+3. Try it. Open any project folder and say: **"Build me a single-file HTML page that works out the monthly payment on a loan. Make it look clean."**
 
----
-
-A 10-agent coding plugin for [Claude Code](https://claude.com/claude-code) — a master orchestrator plus 9 engineering specialists, with automated quality gates baked in.
-
-This is the same agent system Solnest AI uses every day to build client projects.
-
-## Install (two commands)
-
-Inside Claude Code, type:
-
-```
-/plugin marketplace add Solnest-AI/solnest-coding-agent
-/plugin install solnest-coding-agent@solnest
-```
-
-Restart Claude Code, then type `/agents` — you should see **coding-agent** plus 9 specialists.
-
-**Easiest path:** download `INSTALL-SOLNEST-CODING-AGENT.md` from this repo, drag it into Claude Code, and say *"set this up"* — Claude walks you through everything, checks your prerequisites, and verifies the install.
+Already installed the old way (two slash commands)? Do the same three steps. Setup moves you to the new way and keeps everything working.
 
 ## What you get
 
 | Agent | What it does |
 |-------|--------------|
-| **coding-agent** | Master orchestrator — runs THE LOOP: clarify → plan + Definition of Done → build → test → verify → repeat until done |
-| **ai-engineer** | Claude API, prompts, RAG, embeddings, agent design |
-| **backend-architect** | Python, Node.js, APIs, databases, cloud architecture |
+| **coding-agent** | The lead. Asks the few questions that matter, writes down what "done" means, builds, tests, gets the work checked, and repeats until it is done |
+| **ai-engineer** | Claude API, prompts, search over your own documents, agent design |
+| **backend-architect** | Python, Node.js, APIs, databases, cloud |
 | **frontend-developer** | React, Next.js, Tailwind, mobile |
-| **ui-designer** | Layouts, design systems, accessibility, UX |
-| **code-reviewer** | Code review, debugging, refactoring, build errors |
-| **devops** | CI/CD, Docker, Terraform, Kubernetes, deployment |
-| **security-auditor** | Security review, threat modeling, dependency audits |
-| **performance-engineer** | Profiling, benchmarking, optimization, caching |
-| **project-shipper** | Launch checklists, risk assessment, client delivery |
+| **ui-designer** | Layouts, design systems, accessibility |
+| **code-reviewer** | Code review, debugging, cleanup, build errors |
+| **devops** | Automated builds, Docker, deployment |
+| **security-auditor** | Security review and dependency checks |
+| **performance-engineer** | Finding and fixing slow code |
+| **project-shipper** | Launch checklists, risk checks, client delivery |
 
-Plus two automated quality gates (no setup needed):
+You never have to name an agent. Just say "fix this", "build me X" or "review this for launch" and the lead picks the right one.
 
-- **Secret scan** — blocks any `git commit` that contains hardcoded API keys or credentials.
-- **Auto-test loop** — runs your project's tests after every code edit and feeds failures straight back to Claude to fix. It blocks the edit on a red suite by default; set `SOLNEST_AUTOTEST=warn` (report only) or `off` if that gets in your way.
+Two safety checks run by themselves:
 
-## How it works
+- **Secret check.** Blocks any commit that contains a password or an API key.
+- **Test check.** Runs your project's tests after every code edit and hands failures straight back to Claude to fix. If it gets in your way, ask Claude to "turn the test check down to warn" (or off).
 
-The coding-agent doesn't just write code — it runs a closed loop: it asks clarifying questions up front (only when getting it wrong would be expensive), writes a Definition of Done, builds, tests after every edit, then dispatches **fresh-context critics** (code review + security audit, scaled up for complex work) that never review their own code, and loops until the Definition of Done is met.
+## Updates
 
-See [`solnest-coding-agent/README.md`](solnest-coding-agent/README.md) for full agent docs.
+Updates install themselves. Once a day, in the background, the tool checks for a new release and installs it. Your own changes are never wiped: when you ask Claude to change how the coding agent works for you, it saves that in a file of your own that updates do not touch.
 
-## Updating
+Want the newest version right now? Say **"update the coding agent"**. What changed is in [CHANGELOG.md](CHANGELOG.md).
 
-```
-/plugin update solnest-coding-agent
-```
+## Help
 
-New versions are announced in the Solnest AI community — see [CHANGELOG.md](CHANGELOG.md).
+Email hello@solnestai.com, or post in the Solnest AI Skool community with a screenshot.
 
-## Requirements
-
-- Claude Code (latest)
-- `git` and `jq` (the installer checks these for you)
+Full agent and hook docs: [`solnest-coding-agent/README.md`](solnest-coding-agent/README.md).
 
 ---
 
-Built by [Solnest AI](https://solnestai.com) — we help business owners implement AI so they can work *on* their business, not in it.
+Built by [Solnest AI](https://solnestai.com). We help business owners put AI to work so they can work on their business, not in it.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Copyright (c) 2026 Solnest AI.
+MIT. See [LICENSE](LICENSE). Copyright (c) 2026 Solnest AI.

@@ -1,16 +1,16 @@
-# Solnest Coding Agent — Coding Agent
+# Solnest Coding Agent: Coding Agent
 
-Full-stack engineering plugin for Solnest AI — 10 agents covering the complete software development lifecycle.
+Full-stack engineering plugin for Solnest AI, 10 agents covering the complete software development lifecycle.
 
 ## What This Is
 
-A Claude Code plugin with 9 engineering specialists and a master orchestrator. Based on the AI Agent Org Chart v2 (8 departments, 45+ roles). For code work only — marketing, content, and business operations live in `solnest-business-agents`.
+A Claude Code plugin with 9 engineering specialists and a master orchestrator. Based on the AI Agent Org Chart v2 (8 departments, 45+ roles). For code work only, marketing, content, and business operations live in `solnest-business-agents`.
 
 ## Agents
 
 | Agent | Domain | Org Chart Mapping |
 |-------|--------|-------------------|
-| **Coding Agent** | Master orchestrator — routes any task to the right specialist(s) | Chief of Staff |
+| **Coding Agent** | Master orchestrator: routes any task to the right specialist(s) | Chief of Staff |
 | **AI Engineer** | Claude API, prompt engineering, RAG, embeddings, agent design, MLOps | ML Engineer + Data Engineer |
 | **Backend Architect** | Python, Node.js, APIs, databases, cloud architecture, monorepo design | Architect (System Design) |
 | **Frontend Developer** | React, Next.js, Tailwind, mobile (React Native, Flutter) | Frontend Dev (Web & Mobile) |
@@ -23,7 +23,7 @@ A Claude Code plugin with 9 engineering specialists and a master orchestrator. B
 
 ## Tools Available
 
-These are **optional integrations** the agents use when present. The plugin loads and works without any of them — agents check what's configured and degrade gracefully to their built-in toolset.
+These are **optional integrations** the agents use when present. The plugin loads and works without any of them, agents check what's configured and degrade gracefully to their built-in toolset.
 
 | Tool / skill | Used for | If configured |
 |--------------|----------|---------------|
@@ -36,17 +36,17 @@ These are **optional integrations** the agents use when present. The plugin load
 
 ### Tool availability
 
-- Agents **check before using**: if a tool or skill above isn't configured on your machine, they note the gap and fall back to their built-in toolset — nothing breaks.
-- To enable an optional MCP server, add it to your project's `.mcp.json` (keep it gitignored — it holds keys) or your user-level Claude Code config.
+- Agents **check before using**: if a tool or skill above isn't configured on your machine, they note the gap and fall back to their built-in toolset: nothing breaks.
+- To enable an optional MCP server, add it to your project's `.mcp.json` (keep it gitignored: it holds keys) or your user-level Claude Code config.
 
 ## Rules
 
-- **Run THE LOOP** (see coding-agent.md) for any non-trivial task: clarify → plan + Definition of Done → build (worker, or parallel specialists for independent workstreams) → inner test loop → verification panel (fresh-context critics, scaled to complexity) → outer goal-loop until done. **Gate by reversibility** — proceed with stated assumptions on reversible steps; pause to confirm spec/plan on costly-to-reverse choices; block on irreversible or outward-facing actions. In autonomous runs, pauses become board interactions, not stalls.
+- **Run THE LOOP** (see coding-agent.md) for any non-trivial task: clarify → plan + Definition of Done → build (worker, or parallel specialists for independent workstreams) → inner test loop → verification panel (fresh-context critics, scaled to complexity) → outer goal-loop until done. **Gate by reversibility**: proceed with stated assumptions on reversible steps; pause to confirm spec/plan on costly-to-reverse choices; block on irreversible or outward-facing actions. In autonomous runs, pauses become board interactions, not stalls.
 - **Verification is dispatched, never self-reviewed:** code-reviewer / security-auditor / performance-engineer / spec-judge run as fresh Task-tool subagents. Scale the panel up for complex or high-stakes work; trivial work just needs the test loop.
-- **Tier 0 = local pre-check (free, optional):** if the user has wired up a local code-review model (e.g. a small coder model via Ollama), run it over the changed files before spending frontier tokens, and fix what it surfaces first. This plugin does not ship that setup and does not require it — if there's no local pre-check configured, skip straight to the frontier critics.
+- **Tier 0 = local pre-check (free, optional):** if the user has wired up a local code-review model (e.g. a small coder model via Ollama), run it over the changed files before spending frontier tokens, and fix what it surfaces first. This plugin does not ship that setup and does not require it: if there's no local pre-check configured, skip straight to the frontier critics.
 - This loop is a self-contained unit so it can be hired as a single "employee" by an orchestration layer (e.g. Paperclip) via AGENTS.md.
 - Always read files fully before editing
 - Run tests before and after code changes
 - Never commit `.env` files
 - Never commit `node_modules/`
-- Build what was asked for — no speculative abstractions
+- Build what was asked for: no speculative abstractions

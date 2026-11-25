@@ -5,12 +5,48 @@ All notable changes to the `solnest-coding-agent` plugin are documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-11-25
+
+### Added
+
+- **One way to install.** Paste this repo's link into Claude Code and say "set this up".
+  Claude puts the tool in `~/solnest/coding-agent`, installs the plugin from that folder
+  and checks it. No slash commands to type.
+- **Updates install themselves.** Once a day, in the background, the tool checks for a new
+  published release and installs it. If a release does not load, it puts the old version
+  back by itself. Only published releases are installed, never work in progress.
+- **Your own changes are kept.** Ask Claude to change how the coding agent works for you
+  and it saves that in `~/.solnest/coding-agent/my-instructions.md`, which no update
+  touches. Every agent reads that file first.
+
+### Fixed
+
+- The secret check now catches a commit anywhere in a command (`git add . && git commit`,
+  `cd dir && git commit`, `git -C dir commit`), not only a command that starts with
+  `git commit`.
+- The secret check also scans files that the same command is about to add (`git add`,
+  `git commit -a`). Before, those were not staged yet when the check ran, so they went
+  through.
+- The secret check no longer skips every `.sh` file, and the password check now matches
+  single quotes.
+- The test check no longer reports a failure when there were no tests to run or when the
+  test runner is not installed. Those now say "skipped".
+- The test check treats a failing test right after you edit a test file as the normal
+  "write the failing test first" step. Claude is told what failed, and the edit is not
+  blocked.
+
+### Changed
+
+- The old install files (`START-HERE.md`, `INSTALL-SOLNEST-CODING-AGENT.md`) are gone.
+  `CLAUDE.md` at the top of the repo is the one set of setup steps. Installed the old way?
+  Paste the link and say "set this up" once. It moves you over and keeps the plugin on.
+
 ## [3.1.2] - 2026-08-30
 
 ### Fixed
 
 - **Install path.** `START-HERE.md` told Claude to copy the plugin folder into
-  `~/.claude/plugins/<name>/`. Claude Code never scans that directory — plugins
+  `~/.claude/plugins/<name>/`. Claude Code never scans that directory, plugins
   load from `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/`, which
   only the `/plugin` commands create. Anyone who followed START-HERE got zero
   agents and zero hooks with no error explaining why. It now runs the same
@@ -45,7 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - THE LOOP's PLAN step now saves plans for complex/multi-session builds to
-  `docs/plans/` in the project, making the plugin fully self-contained — no
+  `docs/plans/` in the project, making the plugin fully self-contained, no
   external planning plugin needed.
 - Plugin README and CLAUDE.md genericized for public distribution (no
   machine-specific status, GitHub install as the primary path).
