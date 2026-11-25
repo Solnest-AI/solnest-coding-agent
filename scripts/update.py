@@ -323,13 +323,17 @@ def after(root: Path = ROOT) -> str:
     have = current_version(root)
     if not have or meta.get("version") != have:
         raise UpdateError(f"plugin.json says version {meta.get('version')} but VERSION says {have}")
-    agents = sorted((plugin / "agents").glob("*.md"))
-    for a in agents:
-        text = a.read_text(encoding="utf-8", errors="replace")
-        if not re.match(r"---\n(?:.*\n)*?name:[ \t]*\S+", text):
-            raise UpdateError(f"agents/{a.name} has no name")
-    if not (plugin / "agents" / "coding-agent.md").is_file():
-        raise UpdateError("agents/coding-agent.md is missing")
+    # Only the lead agent is required. A file the member added to agents/ is theirs:
+    # it is counted when it is a real agent and never fails a release.
+    def is_agent(path: Path) -> bool:
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n")
+        except OSError:
+            return False
+        return bool(re.match(r"---\n(?:.*\n)*?name:[ \t]*\S+", text))
+    if not is_agent(plugin / "agents" / "coding-agent.md"):
+        raise UpdateError("agents/coding-agent.md is missing or has no name")
+    agents = [a for a in sorted((plugin / "agents").glob("*.md")) if is_agent(a)]
     scripts = re.findall(r"hooks/scripts/[A-Za-z0-9._-]+", json.dumps(hooks))
     if not scripts:
         raise UpdateError("hooks.json names no hook scripts")

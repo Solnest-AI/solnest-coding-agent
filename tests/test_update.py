@@ -196,6 +196,10 @@ class UpdateTest(unittest.TestCase):
         with self.assertRaises(update.UpdateError):
             update.after(self.root)
 
+    def test_after_ignores_a_file_the_member_added_to_agents(self):
+        (self.root / P / "agents" / "notes.md").write_text("just my notes, not an agent\n", encoding="utf-8")
+        self.assertIn("3 agents", update.after(self.root))     # the two shipped ones and their own my-agent, not notes.md
+
     def test_the_real_repo_passes_after(self):
         self.assertIn("10 agents, 2 hooks", update.after(REPO))
 

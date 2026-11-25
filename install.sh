@@ -201,7 +201,7 @@ fi
 
 # 5. Prove the plugin files load (read-only: nothing is registered with Claude Code here).
 if OUT="$("$DEST/bin/py" "$DEST/scripts/update.py" --after 2>&1)"; then
-  echo "[ok] files     ${OUT#\[update\] OK: }"
+  OUT="${OUT#\[update\] OK: }"; echo "[ok] files     ${OUT%.}"
 else
   echo "[!!] files     the plugin files did not load ($OUT). Run this installer again."
   rc=1
