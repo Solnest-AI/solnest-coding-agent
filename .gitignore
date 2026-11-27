@@ -1,2 +1,44 @@
-.DS_Store
+# Secrets: never commit or share these
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.token
+token*.json
+tokens.json
+credentials*.json
+credentials/
+auth.json
+keys.env
 .mcp.json
+.claude/
+
+# Caches, environments, logs
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+.cache/
+*.log
+.pytest_cache/
+*-profile/
+profiles/
+*.bak*
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Updater state and the installed launcher (never part of a release)
+.update-backup/
+.coding-agent-files.txt
+bin/
+*.update-tmp
+
+# Editor and agent rule files that sync tools drop into project folders (private, never shipped)
+.cursor/
+.windsurf/
+AGENTS.md
+GEMINI.md
